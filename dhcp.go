@@ -122,7 +122,7 @@ func (dhcp dhcpClient) Test(t *testing.T) {
 	assert.NonNil(err)
 
 	assert.Comment("Request dhcp address")
-	out, err := dhcp.ExecCmd(t, "R1", "dhclient", "-4", "-v", intfName)
+	out, err := dhcp.ExecCmd(t, "R1", "timeout", "10", "dhclient", "-4", "-v", intfName)
 	assert.Nil(err)
 	assert.Match(out, "bound to")
 }
@@ -178,7 +178,7 @@ func (dhcp dhcpVlanTag) Test(t *testing.T) {
 	}(done)
 
 	time.Sleep(1 * time.Second)
-	out, err := dhcp.ExecCmd(t, "R1", "dhclient", "-4", "-v", intfName1)
+	out, err := dhcp.ExecCmd(t, "R1", "timeout", "10", "dhclient", "-4", "-v", intfName1)
 	assert.Nil(err)
 	assert.Match(out, "bound to")
 	<-done
