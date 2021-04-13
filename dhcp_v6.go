@@ -105,10 +105,18 @@ func (dhcp dhcpV6Client) Test(t *testing.T) {
 	r, err := docker.FindHost(dhcp.Config, "R1")
 	intf := r.Intfs[0]
 
+	_, err = dhcp.ExecCmd(t, "R1",
+		"ip", "link", "set", "down", intf.Name)
+	assert.Nil(err)
 	// remove existing IP address
 	_, err = dhcp.ExecCmd(t, "R1",
 		"ip", "address", "delete", "2001:db8:0:120::5/64", "dev", intf.Name)
 	assert.Nil(err)
+
+	_, err = dhcp.ExecCmd(t, "R1",
+		"ip", "link", "set", "up", intf.Name)
+	assert.Nil(err)
+	time.Sleep(3 * time.Second)
 
 	assert.Comment("Verify ping fails")
 	_, err = dhcp.ExecCmd(t, "R1", "ping", "-c1", "2001:db8:0:120::10")
