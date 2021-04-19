@@ -233,6 +233,7 @@ func (slice sliceV6Isolation) Test(t *testing.T) {
 			"ip", "link", "set", "down", intf)
 		assert.Nil(err)
 	}
+	time.Sleep(1 * time.Second)
 	// how do I do an anti match???
 	// FIXME
 	//assert.Program(*Goes, "vnet", "show", "ip", "fib", "table", "RB-2")
