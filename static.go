@@ -5,6 +5,7 @@
 package main
 
 import (
+	"fmt"
 	"regexp"
 	"testing"
 	"time"
@@ -24,6 +25,7 @@ func staticVlanTest(t *testing.T) {
 func staticTest(t *testing.T, tmpl string) {
 	docket := &docker.Docket{Tmpl: tmpl}
 	docket.Test(t,
+		staticAddFrr{docket},
 		staticConnectivity{docket},
 		staticFrr{docket},
 		staticRoutes{docket},
@@ -35,6 +37,38 @@ func staticTest(t *testing.T, tmpl string) {
 		staticAdminDown{docket})
 }
 
+type staticAddFrr struct{ *docker.Docket }
+
+func (staticAddFrr) String() string { return "addStatic" }
+
+func (static staticAddFrr) Test(t *testing.T) {
+	assert := test.Assert{t}
+	time.Sleep(1 * time.Second)
+
+	for _, x := range []struct {
+		hostname    string
+		prefix      string
+		destination string
+	}{
+		{"CA-1", "0.0.0.0/0", "10.1.0.2"},
+		{"RA-1", "0.0.0.0/0", "10.2.0.3"},
+		{"RA-1", "192.168.0.1/32", "10.1.0.1"},
+		{"RA-2", "0.0.0.0/0", "10.2.0.2"},
+		{"RA-2", "192.168.0.2/32", "10.3.0.4"},
+		{"CA-2", "0.0.0.0/0", "10.3.0.3"},
+	} {
+		assert.Comment("add route", x.hostname, x.prefix, x.destination)
+		// _, err := static.ExecCmd(t, x.hostname, "ip", "route", "add",
+		//	x.prefix, "via", x.destination)
+
+		cmd := fmt.Sprintf("ip route %v %v", x.prefix, x.destination)
+		_, err := static.ExecCmd(t, x.hostname,
+			"vtysh", "-c", "conf t", "-c",
+			cmd)
+		assert.Nil(err)
+	}
+}
+
 type staticConnectivity struct{ *docker.Docket }
 
 func (staticConnectivity) String() string { return "connectivity" }
@@ -42,6 +76,7 @@ func (staticConnectivity) String() string { return "connectivity" }
 func (static staticConnectivity) Test(t *testing.T) {
 	assert := test.Assert{t}
 
+	test.Pause.Prompt("Stop")
 	for _, x := range []struct {
 		hostname string
 		target   string
