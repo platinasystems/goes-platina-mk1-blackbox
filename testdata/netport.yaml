@@ -1,5 +1,5 @@
 net0port0: xeth1
-net0port1: xeth17
+net0port1: xeth2
 net1port0: xeth3
 net1port1: xeth4
 net2port0: xeth5

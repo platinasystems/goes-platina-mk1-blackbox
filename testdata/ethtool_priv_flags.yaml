@@ -1,6 +1,6 @@
 option: [--set-fec]
 xeth1: [encoding, rs]
-xeth17: [encoding, rs]
+xeth2: [encoding, rs]
 xeth3: [encoding, rs]
 xeth4: [encoding, rs]
 xeth5: [encoding, rs]

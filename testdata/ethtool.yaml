@@ -1,5 +1,5 @@
 xeth1: [speed, 100000, autoneg, off, port, tp]
-xeth17: [speed, 100000, autoneg, off, port, tp]
+xeth2: [speed, 100000, autoneg, off, port, tp]
 xeth3: [speed, 100000, autoneg, off, port, tp]
 xeth4: [speed, 100000, autoneg, off, port, tp]
 xeth5: [speed, 100000, autoneg, off, port, tp]

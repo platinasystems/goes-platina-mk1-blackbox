@@ -2,7 +2,7 @@ volume: "/testdata/svi/ospf/"
 mapping: "/etc/frr"
 routers:
 - hostname: H1
-  image: "platinasystems/frrouting:7.3.1"
+  image: "platinasystems/frrouting:8.3.1"
   cmd: "/root/startup.sh"
   intfs:
   - name: {{index . "net0port0"}}
@@ -13,7 +13,7 @@ routers:
     address:
       - 192.168.0.1/32
 - hostname: H2
-  image: "platinasystems/frrouting:7.3.1"
+  image: "platinasystems/frrouting:8.3.1"
   cmd: "/root/startup.sh"
   intfs:
   - name: {{index . "net1port0"}}
@@ -23,7 +23,7 @@ routers:
     address:
       - 192.168.0.2/32
 - hostname: R1
-  image: "platinasystems/frrouting:7.3.1"
+  image: "platinasystems/frrouting:8.3.1"
   cmd: "/root/startup.sh"
   intfs:
   - kind: xeth-bridge
@@ -43,7 +43,7 @@ routers:
     - name: {{index . "net1port1"}}
       vlan: 0
 - hostname: R2
-  image: "platinasystems/frrouting:7.3.1"
+  image: "platinasystems/frrouting:8.3.1"
   cmd: "/root/startup.sh"
   intfs:
   - name: {{index . "net2port1"}}
@@ -57,7 +57,7 @@ routers:
     address:
       - 192.168.1.2/32      
 - hostname: H3
-  image: "platinasystems/frrouting:7.3.1"
+  image: "platinasystems/frrouting:8.3.1"
   cmd: "/root/startup.sh"
   intfs:
   - name: {{index . "net3port1"}}

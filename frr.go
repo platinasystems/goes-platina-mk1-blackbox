@@ -417,7 +417,7 @@ func (frr frrOspfRoutes) Test(t *testing.T) {
 			t.Fatalf("No ospf route for %v: %v", x.hostname, x.route)
 		}
 	}
-}
+        test.Pause.Prompt("Stop")}
 
 type frrOspfInterConnectivity struct{ *docker.Docket }
 
